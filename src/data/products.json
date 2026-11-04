@@ -1,0 +1,191 @@
+[
+  {
+    "id": "acc-101",
+    "name": "Oraimo Airbuds pro",
+    "brand": "Oraimo",
+    "price": 1699,
+    "category": "Audio",
+    "image": "/earbuds.png",
+    "description": "True wireless earbuds with deep bass and ergonomic noise-isolating fit."
+  },
+  {
+    "id": "acc-102",
+    "name": "X-Cell 65W GaN II Fast Super Charger",
+    "brand": "X-Cell",
+    "price": 4299,
+    "category": "Chargers",
+    "image": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=600&q=80",
+    "description": "Multi-port high-speed GaN wall adapter for laptops and smartphones."
+  },
+  {
+    "id": "acc-103",
+    "name": "Belkin BoostCharge Type-C to Lightning Cable 1M",
+    "brand": "Belkin",
+    "price": 1799,
+    "category": "Chargers",
+    "image": "/typec.png",
+    "description": "MFi-certified braided silicone cable engineered for ultra-fast Power Delivery."
+  },
+  {
+    "id": "acc-104",
+    "name": "Armor Matte Shockproof Bumper Case",
+    "brand": "Apple",
+    "price": 1250,
+    "category": "Cases & Covers",
+    "image": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=600&q=80",
+    "description": "Mil-grade tactile drop protection with raised bezel camera guard."
+  },
+  {
+    "id": "acc-105",
+    "name": "Anker Soundcore Life P2 Mini Earbuds",
+    "brand": "Anker",
+    "price": 3499,
+    "category": "Audio",
+    "image": "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?auto=format&fit=crop&w=600&q=80",
+    "description": "Ultra-compact true wireless earbuds with custom EQ modes."
+  },
+  {
+    "id": "acc-106",
+    "name": "9H Full Coverage Privacy Tempered Glass",
+    "brand": "Belkin",
+    "price": 950,
+    "category": "Screen Protectors",
+    "image": "/protector2.png",
+    "description": "Oleophobic scratch-resistant edge-to-edge privacy filter."
+  },
+  {
+    "id": "acc-107",
+    "name": "Oraimo Spacebuds",
+    "brand": "Oraimo",
+    "price": 4999,
+    "category": "Audio",
+    "image": "/spacebuds.png",
+    "description": "Noise cancelling,quality earbuds."
+  },
+   {
+    "id": "acc-108",
+    "name": "P9 headphones ",
+    "brand": "P9",
+    "price": 999,
+    "category": "Audio",
+    "image": "/P9.png",
+    "description": "Noise cancelling,quality headphones ."
+  },
+  {
+    "id": "acc-109",
+    "name": "iPhone 16 smiley case ",
+    "brand": "Retro101",
+    "price": 799,
+    "category": "Cases & Covers",
+    "image": "/case1.png",
+    "description": "A glossy, durable case  ."
+  },
+  {
+    "id": "acc-110",
+    "name": " Samsung Galaxy A-07 smiley-sticker case ",
+    "brand": "Retro101",
+    "price": 799,
+    "category": "Cases & Covers",
+    "image": "/case2.png",
+    "description": "A glossy, durable case with smiley stickers  ."
+  },
+  {
+    "id": "acc-111",
+    "name": " Samsung Galaxy s-24 ultra clear case ",
+    "brand": "Retro101",
+    "price": 1299,
+    "category": "Cases & Covers",
+    "image": "/case3.png",
+    "description": "A clear case  ."
+  },
+   {
+    "id": "acc-112",
+    "name": " Customized bead phone charm ",
+    "brand": "Charms&Co",
+    "price": 350,
+    "category": "Charms",
+    "image": "/charm3.png",
+    "description": " Customise it however you like ."
+  },
+  {
+    "id": "acc-113",
+    "name": " Butterfly beaded phone charm ",
+    "brand": "Charms&Co",
+    "price": 299,
+    "category": "Charms",
+    "image": "/charm1.png",
+    "description": " Beaded phone charm with butterfly pendants ."
+  },
+   {
+    "id": "acc-114",
+    "name": " Heart beaded phone charm ",
+    "brand": "Charms&Co",
+    "price": 299,
+    "category": "Charms",
+    "image": "/charm2.png",
+    "description": " Beaded phone charm with heart pendants ."
+  },
+  {
+    "id": "acc-115",
+    "name": " Metallic phone ring holder ",
+    "brand": "Retro101",
+    "price": 299,
+    "category": "Phone holders",
+    "image": "/holder1.png",
+    "description": " Slick, black ring holder ."
+  },
+  {
+    "id": "acc-116",
+    "name": " Foldable phone holder ",
+    "brand": "Retro101",
+    "price": 649,
+    "category": "Phone holders",
+    "image": "/holder2.png",
+    "description": " Smartphone Holder, Foldable Phone Stand - Black ."
+  },
+  {
+    "id": "acc-117",
+    "name": " Cat phone ring  holder ",
+    "brand": "Charms&Co",
+    "price": 250,
+    "category": "Phone holders",
+    "image": "/holder3.png",
+    "description": " Cute cat-shaped ring holder ."
+  },
+  {
+    "id": "acc-118",
+    "name": " Wireless powerbank ",
+    "brand": "Belkin",
+    "price": 4999,
+    "category": "Powerbanks",
+    "image": "/powerbank3.png",
+    "description": " Blue wireless Powerbank. Compatible with all devices ."
+  },
+  {
+    "id": "acc-119",
+    "name": " Slim Wireless powerbank ",
+    "brand": "X-Cell",
+    "price": 3500,
+    "category": "Powerbanks",
+    "image": "/powerbank2.png",
+    "description": " Slim , light portable wireless Powerbank. Compatible with all devices ."
+  },
+  {
+    "id": "acc-120",
+    "name": " Black  Wireless powerbank ",
+    "brand": "Oraimo",
+    "price": 3500,
+    "category": "Powerbanks",
+    "image": "/powerbank1.png",
+    "description": " Oraimo mapower magnetic wireless and wired powerbank ."
+  },
+  {
+    "id": "acc-121",
+    "name": " 2 PCS 360 Degree Privacy Tempered Glass ",
+    "brand": "X-Cell",
+    "price": 3190,
+    "category": "Screen Protectors",
+    "image": "/protector.png",
+    "description": " 4 Directions Anti-Spy Screen Protector Film Compatible with 14 Pro Max."
+  }
+]

@@ -1,0 +1,314 @@
+---
+import Layout from '../layouts/Layout.astro';
+import products from '../data/products.json';
+---
+
+<Layout title="Accessories">
+  <div class="max-w-7xl mx-auto px-4 py-6">
+
+   
+<!-- Homepage Hero Section -->
+<section class="relative overflow-hidden rounded-2xl bg-[#F8F9FA] border border-[#E2E8F0] mb-10">
+  <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-6 px-6 py-10 sm:p-12">
+
+    <!-- Hero Text -->
+    <div class="relative z-10">
+      <span class="inline-block bg-blue-100 text-[#0052CC] text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-5">
+        TIXAR PHONE ACCESSORIES
+      </span>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-[#1E293B] leading-tight">
+        The Right Accessories.
+        {" "}<span class="text-[#0052CC]">The Right Connection.</span>
+      </h1>
+
+      <p class="text-sm text-[#64748B] mt-4 max-w-md leading-relaxed">
+        Discover quality phone accessories designed to keep you connected, powered and ready for anything.
+      </p>
+
+      <div class="flex flex-wrap gap-3 mt-7">
+        <a href="#product-grid"
+           class="bg-[#0052CC] hover:bg-[#003D99] text-white px-6 py-3 rounded-xl text-sm font-bold transition">
+          Shop Now
+        </a>
+
+        <a href="#categories"
+           class="border border-[#0052CC] text-[#0052CC] hover:bg-blue-50 px-6 py-3 rounded-xl text-sm font-bold transition">
+          Explore Categories
+        </a>
+      </div>
+    </div>
+
+    <!-- Hero Product Image -->
+    <div class="flex justify-center items-center">
+      {products.length > 0 && (
+        <img
+          src={products[0].image}
+          alt="Featured TIXAR accessory"
+          class="w-full max-w-sm h-64 sm:h-80 object-contain"
+        />
+      )}
+    </div>
+
+  </div>
+</section>
+
+<!-- Store Catalogue Heading -->
+<div id="categories" class="mb-6">
+  <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1E293B]">
+    Explore Our Collection
+  </h2>
+  <p class="text-sm text-[#64748B] mt-1">
+    <span id="product-count">{products.length}</span> products available
+  </p>
+</div>
+
+
+    <!-- Main Storefront Layout: Sidebar + Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- Left Filter Sidebar -->
+      <aside class="space-y-6">
+        <div class="bg-white p-5 rounded-xl border border-gray-200">
+          <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+            <h3 class="font-bold text-sm text-gray-900">Filters</h3>
+            <button id="reset-filters" class="text-xs text-[#0052CC8] font-medium hover:underline cursor-pointer">Clear All</button>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="mb-6">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Category</h4>
+            <div class="space-y-2 text-sm text-gray-600">
+              <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Audio" class="category-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Audio
+                </span>
+                <span class="text-xs text-gray-400">(2)</span>
+              </label>
+              <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Chargers" class="category-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Chargers
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+              <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Cases & Covers" class="category-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Cases & Covers
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+              <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Screen Protectors" class="category-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Screen Protectors
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+			  <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Charms" class="category-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Charms
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+			  <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Phone holders" class="category-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Phone holders
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+			  <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Powerbanks" class="category-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Powerbanks
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Brand Filter -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Brand</h4>
+            <div class="space-y-2 text-sm text-gray-600">
+              <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="X-Cell" class="brand-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  X-Cell
+                </span>
+                <span class="text-xs text-gray-400">(2)</span>
+              </label>
+              <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Belkin" class="brand-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Belkin
+                </span>
+                <span class="text-xs text-gray-400">(2)</span>
+              </label>
+              <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Anker" class="brand-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Anker
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+              
+			  <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="P9" class="brand-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  P9
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+			  <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+                <span class="flex items-center gap-2">
+                  <input type="checkbox" value="Retro101" class="brand-checkbox rounded text-[#0052CC8] focus:ring-[#0052CC8]" />
+                  Retro101
+                </span>
+                <span class="text-xs text-gray-400">(1)</span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+      <!-- Right Product Cards Section -->
+      <section class="lg:col-span-3">
+        <!-- Sort bar -->
+        <div class="flex items-center justify-between bg-white p-3.5 rounded-xl border border-gray-200 mb-6">
+          <span class="text-xs text-gray-500 font-medium">Viewing all available inventory</span>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-gray-500">Sort by:</label>
+            <select id="sort-select" class="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-gray-50 focus:outline-none focus:ring-1 focus:ring-[#0052CC8]">
+              <option value="featured">Featured First</option>
+              <option value="low-high">Price: Low to High</option>
+              <option value="high-low">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {products.map((item) => (
+            <div 
+              class="product-card bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#0052CC]/30 transition-all flex flex-col relative group"
+              data-category={item.category}
+              data-brand={item.brand}
+              data-price={item.price}
+              data-name={item.name.toLowerCase()}
+            >
+              <!-- Wishlist Heart Icon -->
+              <button class="absolute top-3 right-3 p-2 rounded-full bg-white/80 hover:bg-white text-gray-400 hover:text-red-500 shadow-sm transition z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
+
+              <!-- Image container (clickable) -->
+<a href={`/product/${item.id}`} class="h-64 bg-[#F8F9FA] flex items-center justify-center overflow-hidden block p-5">
+  <img src={item.image} alt={item.name} class="h-full w-full object-contain group-hover:scale-105 transition duration-300" />
+</a>
+
+<!-- Content -->
+<div class="p-5 flex-1 flex flex-col justify-between">
+  <div>
+    <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">{item.brand}</span>
+    <!-- Title (clickable) -->
+    <a href={`/product/${item.id}`} class="hover:text-[#0052CC8] transition block">
+      <h3 class="text-sm font-bold text-[#1E293B] mt-2 line-clamp-2 leading-relaxed uppercase">{item.name}</h3>
+    </a>
+  </div>
+
+                <div class="mt-4 pt-3 border-t border-gray-100">
+                  <div class="text-lg font-extrabold text-[#1E293B]">
+                    KSh {item.price.toLocaleString()}
+                  </div>
+
+                 <button
+  onclick={`addToCart(${JSON.stringify(item)})`}
+  class="mt-4 w-full bg-[#059669] hover:bg-[#047857] text-white text-sm font-semibold py-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5"
+>
+  + Add to Cart
+</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+
+    
+
+  </div>
+
+  <!-- Interactive Search & Filtering Logic -->
+  <script is:inline>
+    const searchInput = document.getElementById('searchInput');
+    const categoryCheckboxes = document.querySelectorAll('.category-checkbox');
+    const brandCheckboxes = document.querySelectorAll('.brand-checkbox');
+    const cards = Array.from(document.querySelectorAll('.product-card'));
+    const productCount = document.getElementById('product-count');
+    const resetBtn = document.getElementById('reset-filters');
+    const sortSelect = document.getElementById('sort-select');
+    const grid = document.getElementById('product-grid');
+
+    function filterAndSort() {
+      const query = searchInput ? searchInput.value.toLowerCase() : '';
+      const selectedCategories = Array.from(categoryCheckboxes).filter(c => c.checked).map(c => c.value);
+      const selectedBrands = Array.from(brandCheckboxes).filter(b => b.checked).map(b => b.value);
+
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cat = card.dataset.category;
+        const brand = card.dataset.brand;
+        const name = card.dataset.name;
+
+        const matchesSearch = !query || name.includes(query);
+        const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(cat);
+        const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(brand);
+
+        if (matchesSearch && matchesCategory && matchesBrand) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (productCount) productCount.textContent = visibleCount;
+    }
+
+    if (searchInput) searchInput.addEventListener('input', filterAndSort);
+    categoryCheckboxes.forEach(cb => cb.addEventListener('change', filterAndSort));
+    brandCheckboxes.forEach(cb => cb.addEventListener('change', filterAndSort));
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        categoryCheckboxes.forEach(cb => cb.checked = false);
+        brandCheckboxes.forEach(cb => cb.checked = false);
+        if (searchInput) searchInput.value = '';
+        filterAndSort();
+      });
+    }
+
+    if (sortSelect) {
+      sortSelect.addEventListener('change', () => {
+        const val = sortSelect.value;
+        const sorted = [...cards].sort((a, b) => {
+          const priceA = parseFloat(a.dataset.price);
+          const priceB = parseFloat(b.dataset.price);
+          return val === 'low-high' ? priceA - priceB : val === 'high-low' ? priceB - priceA : 0;
+        });
+        sorted.forEach(el => grid.appendChild(el));
+      });
+    }
+  </script>
+</Layout>
