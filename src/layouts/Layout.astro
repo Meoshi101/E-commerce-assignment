@@ -1,237 +1,249 @@
 ---
-interface Props {
-  title: string;
-}
+import products from '../data/products.json';
 
+interface Props { title: string }
 const { title } = Astro.props;
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Tixar Phone Accessories</title>
-    <!-- Tailwind CDN -->
     <script is:inline src="https://cdn.tailwindcss.com"></script>
+    <style is:global>
+      html { scroll-behavior: smooth; }
+      .wished { color: #ef4444 !important; }
+      .wished svg { fill: currentColor; }
+      body { background: #f8fafc; }
+    </style>
   </head>
   <body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen flex flex-col">
-
-    
-
-    <!-- Main Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
-        
-        <!-- Brand Logo -->
         <a href="/" class="flex items-center gap-2">
           <span class="w-3.5 h-3.5 rounded-full bg-[#059669]"></span>
-          <span class="text-2xl font-black tracking-tight text-gray-900">TIXAR</span>
+          <span class="text-2xl font-black tracking-tight">TIXAR</span>
           <span class="text-xs font-bold text-gray-400 uppercase tracking-widest hidden sm:inline">Accessories</span>
         </a>
-
-        <!-- Right Actions -->
-        <div class="flex items-center gap-4">
-          <a href="/#model" class="text-xs font-semibold text-gray-600 hover:text-[#059669] transition hidden sm:block">
-            Revenue Model
-          </a>
-
-          <!-- Native Working Cart Trigger -->
-          <button 
-            id="openCartBtn"
-            class="flex items-center gap-2 bg-[#059669] hover:bg-[#047857] text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition shadow-sm cursor-pointer"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 10H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 4l1.25 5h8.22l1.25-5H3.14zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-            </svg>
-            <span>Cart</span>
-            (<span id="navCartCount" class="font-bold">0</span>)
+        <div class="flex items-center gap-5">
+          <a href="/#product-grid" class="text-xs font-semibold text-gray-600 hover:text-[#059669] hidden sm:block">Shop</a>
+          <button id="openCartBtn" type="button" class="flex items-center gap-2 bg-[#059669] hover:bg-[#047857] text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition shadow-sm cursor-pointer">
+            <span>Cart</span> (<span id="navCartCount" class="font-bold">0</span>)
           </button>
         </div>
-
       </div>
     </header>
 
-    <!-- Page Content Slot -->
-    <main class="flex-1">
-      <slot />
-    </main>
+    <main class="flex-1"><slot /></main>
 
-    <!-- Slide-Over Shopping Cart Drawer -->
-    <div id="cartDrawerBackdrop" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity"></div>
-    <aside id="cartDrawer" class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300">
-      
-      <!-- Cart Header -->
-      <div class="p-5 border-b border-gray-100 flex items-center justify-between">
-        <h2 class="text-lg font-extrabold text-gray-900">Your Shopping Cart (<span id="drawerCartCount">0</span>)</h2>
-        <button id="closeCartBtn" class="text-gray-400 hover:text-gray-700 p-1 rounded-lg text-xl font-bold cursor-pointer">&times;</button>
+    <!-- Shopping cart drawer -->
+    <div id="cartBackdrop" class="fixed inset-0 bg-black/50 z-50 hidden"></div>
+    <aside id="cartDrawer" class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl flex flex-col translate-x-full transition-transform duration-300" aria-label="Shopping cart">
+      <div class="p-5 border-b flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-extrabold">Your Cart (<span id="drawerCount">0</span>)</h2>
+          <p class="text-xs text-gray-500 mt-1">Review your selected accessories</p>
+        </div>
+        <button id="closeCartBtn" type="button" aria-label="Close cart" class="text-gray-400 hover:text-gray-700 text-2xl cursor-pointer">&times;</button>
       </div>
-
-      <!-- Items List -->
-      <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4">
-        <!-- Rendered via JS -->
-      </div>
-
-      <!-- Cart Footer / Checkout -->
-      <div class="p-5 border-t border-gray-100 bg-gray-50 space-y-3">
+      <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+      <div class="p-5 border-t bg-gray-50 space-y-3">
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500 font-medium">Subtotal</span>
-          <span id="cartSubtotal" class="font-black text-gray-900 text-lg">KSh 0</span>
+          <span id="cartSubtotal" class="font-black text-lg">KSh 0</span>
         </div>
-        <p class="text-[11px] text-gray-400">Taxes, shipping and delivery calculated at checkout.</p>
-        
-        <button 
-          id="checkoutBtn"
-          class="w-full bg-[#059669] hover:bg-[#059669] text-white font-bold py-3.5 rounded-xl transition cursor-pointer shadow-md text-sm"
-        >
-          Proceed to Checkout
-        </button>
+        <p class="text-[11px] text-gray-400">Delivery charges are calculated at checkout.</p>
+        <button id="checkoutBtn" type="button" class="w-full bg-[#059669] hover:bg-[#047857] text-white font-bold py-3.5 rounded-xl text-sm cursor-pointer">Proceed to Checkout</button>
+        <button id="continueShoppingBtn" type="button" class="w-full text-sm text-gray-500 hover:text-[#0052CC] py-1">Continue shopping</button>
       </div>
     </aside>
 
-    <!-- Simulated Checkout Modal -->
-    <div id="checkoutModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">
-        <div class="w-14 h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
-          ✓
-        </div>
-        <h3 class="text-xl font-extrabold text-gray-900">Order Placed Successfully!</h3>
-        <p class="text-xs text-gray-500 leading-relaxed">
-          Thank you for ordering with Tixar Accessories.
-        </p>
-        <div class="bg-gray-50 p-4 rounded-xl text-left text-xs space-y-1 border border-gray-100">
-          <div class="flex justify-between"><span>Payment Method:</span> <strong class="text-gray-900">M-Pesa / Card (Simulated)</strong></div>
-          <div class="flex justify-between"><span>Status:</span> <strong class="text-green-600 font-bold">Confirmed</strong></div>
-        </div>
-        <button id="closeModalBtn" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl text-xs hover:bg-gray-800 transition cursor-pointer">
-          Done & Clear Cart
-        </button>
-      </div>
+    <!-- Checkout and confirmation modal -->
+    <div id="checkoutModal" class="fixed inset-0 bg-black/60 z-[60] hidden items-center justify-center p-3 sm:p-5">
+      <div id="checkoutBody" class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-7 max-h-[94vh] overflow-y-auto shadow-2xl"></div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 text-gray-400 py-10 mt-16 text-center text-xs">
-      <div class="max-w-7xl mx-auto px-4 space-y-2">
-        <p class="font-semibold text-white">Tixar Phone Accessories &bull; Academic E-Commerce Project</p>
-        <p>&copy; 2026 Tixar. All rights reserved. </p>
-      </div>
+      <p class="font-semibold text-white">Tixar Phone Accessories &bull; Academic E-Commerce Project</p>
+      <p class="mt-1">&copy; 2026 Tixar. Built by Group Tixar, Kirinyaga University.</p>
     </footer>
 
-    <!-- Global Native Cart Script -->
-    <script is:inline>
-      let cart = JSON.parse(localStorage.getItem('tixar_cart') || '[]');
-
-      const openCartBtn = document.getElementById('openCartBtn');
-      const closeCartBtn = document.getElementById('closeCartBtn');
-      const cartDrawer = document.getElementById('cartDrawer');
-      const cartDrawerBackdrop = document.getElementById('cartDrawerBackdrop');
-      const cartItemsList = document.getElementById('cartItemsList');
-      const navCartCount = document.getElementById('navCartCount');
-      const drawerCartCount = document.getElementById('drawerCartCount');
-      const cartSubtotal = document.getElementById('cartSubtotal');
-      const checkoutBtn = document.getElementById('checkoutBtn');
-      const checkoutModal = document.getElementById('checkoutModal');
-      const closeModalBtn = document.getElementById('closeModalBtn');
-
-      function saveCart() {
-        localStorage.setItem('tixar_cart', JSON.stringify(cart));
-        updateCartUI();
-      }
-
-      function updateCartUI() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-        if (navCartCount) navCartCount.textContent = totalItems;
-        if (drawerCartCount) drawerCartCount.textContent = totalItems;
-        if (cartSubtotal) cartSubtotal.textContent = `KSh ${subtotal.toLocaleString()}`;
-
-        if (!cartItemsList) return;
-
-        if (cart.length === 0) {
-          cartItemsList.innerHTML = `
-            <div class="text-center py-12 text-gray-400">
-              <p class="text-4xl mb-2"></p>
-              <p class="text-sm font-medium">Your cart is empty.</p>
-            </div>
-          `;
-          return;
-        }
-
-        cartItemsList.innerHTML = cart.map((item, index) => `
-          <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl border border-gray-100">
-            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg bg-white" />
-            <div class="flex-1 min-w-0">
-              <h4 class="text-xs font-bold text-gray-900 truncate">${item.name}</h4>
-              <p class="text-xs font-extrabold text-[#0052CC8] mt-0.5">KSh ${item.price.toLocaleString()}</p>
-              <div class="flex items-center gap-2 mt-2">
-                <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-white border border-gray-200 rounded text-xs font-bold hover:bg-gray-100 flex items-center justify-center cursor-pointer">-</button>
-                <span class="text-xs font-bold">${item.quantity}</span>
-                <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-white border border-gray-200 rounded text-xs font-bold hover:bg-gray-100 flex items-center justify-center cursor-pointer">+</button>
-              </div>
-            </div>
-            <button onclick="removeItem(${index})" class="text-gray-400 hover:text-red-500 text-sm p-1 cursor-pointer">&times;</button>
-          </div>
-        `).join('');
-      }
-
-      window.changeQty = function(index, delta) {
-        cart[index].quantity += delta;
-        if (cart[index].quantity <= 0) cart.splice(index, 1);
-        saveCart();
-      };
-
-      window.removeItem = function(index) {
-        cart.splice(index, 1);
-        saveCart();
-      };
-
-      window.addToCart = function(product) {
-        const existing = cart.find(i => i.id === product.id);
-        if (existing) {
-          existing.quantity += 1;
-        } else {
-          cart.push({ ...product, quantity: 1 });
-        }
-        saveCart();
-        openDrawer();
-      };
-
-      function openDrawer() {
-        cartDrawer.classList.remove('translate-x-full');
-        cartDrawerBackdrop.classList.remove('hidden');
-      }
-
-      function closeDrawer() {
-        cartDrawer.classList.add('translate-x-full');
-        cartDrawerBackdrop.classList.add('hidden');
-      }
-
-      if (openCartBtn) openCartBtn.addEventListener('click', openDrawer);
-      if (closeCartBtn) closeCartBtn.addEventListener('click', closeDrawer);
-      if (cartDrawerBackdrop) cartDrawerBackdrop.addEventListener('click', closeDrawer);
-
-      if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-          if (cart.length === 0) {
-            alert('Your cart is empty! Add an item before checking out.');
-            return;
-          }
-          closeDrawer();
-          checkoutModal.classList.remove('hidden');
-        });
-      }
-
-      if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', () => {
-          cart = [];
-          saveCart();
-          checkoutModal.classList.add('hidden');
-        });
-      }
-
-      // Initialize on page load
-      updateCartUI();
+    <script is:inline define:vars={{ PRODUCTS: products }}>
+      window.PRODUCTS = PRODUCTS;
     </script>
+    <script is:inline>
+      (() => {
+        const P = Object.fromEntries((window.PRODUCTS || []).map(p => [String(p.id), p]));
+        const money = n => 'KSh ' + Number(n || 0).toLocaleString('en-KE');
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const $ = id => document.getElementById(id);
+        const load = key => { try { const value = JSON.parse(localStorage.getItem(key)); return Array.isArray(value) ? value : []; } catch { return []; } };
+        let cart = load('tixar_cart_v2').filter(i => P[String(i.id)]).map(i => ({ id: String(i.id), qty: Math.max(1, Number(i.qty) || 1) }));
+        let wish = load('tixar_wish');
+        const count = () => cart.reduce((sum, item) => sum + item.qty, 0);
+        const subtotal = () => cart.reduce((sum, item) => sum + Number(P[item.id].price) * item.qty, 0);
+        const save = () => { localStorage.setItem('tixar_cart_v2', JSON.stringify(cart)); renderCart(); };
+
+        function renderCart() {
+          $('navCartCount').textContent = count();
+          $('drawerCount').textContent = count();
+          $('cartSubtotal').textContent = money(subtotal());
+          $('checkoutBtn').disabled = cart.length === 0;
+          $('checkoutBtn').classList.toggle('opacity-50', cart.length === 0);
+          $('cartItems').innerHTML = cart.length ? cart.map((item, index) => {
+            const product = P[item.id];
+            return `<div class="flex items-center gap-3 bg-gray-50 p-3 rounded-2xl border border-gray-100">
+              <img src="${esc(product.image)}" alt="${esc(product.name)}" class="w-20 h-20 object-contain rounded-xl bg-white p-1" />
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xs font-bold leading-relaxed">${esc(product.name.trim())}</h4>
+                <p class="text-sm font-extrabold text-[#0052CC] mt-1">${money(product.price)}</p>
+                <div class="flex items-center gap-2 mt-2">
+                  <button type="button" data-qty="${index}:-1" aria-label="Decrease quantity" class="w-7 h-7 bg-white border rounded-lg text-sm font-bold cursor-pointer">−</button>
+                  <span class="text-xs font-bold min-w-4 text-center">${item.qty}</span>
+                  <button type="button" data-qty="${index}:1" aria-label="Increase quantity" class="w-7 h-7 bg-white border rounded-lg text-sm font-bold cursor-pointer">+</button>
+                </div>
+              </div>
+              <button type="button" data-remove="${index}" aria-label="Remove ${esc(product.name)}" class="text-gray-400 hover:text-red-500 text-2xl cursor-pointer">&times;</button>
+            </div>`;
+          }).join('') : `<div class="text-center py-16 text-gray-400"><p class="text-5xl mb-3">🛒</p><p class="text-sm font-semibold">Your cart is empty.</p><a href="/#product-grid" class="inline-block mt-4 text-sm text-[#0052CC] font-bold">Browse products</a></div>`;
+        }
+
+        function addToCart(id) {
+          id = String(id);
+          if (!P[id]) return;
+          const existing = cart.find(item => item.id === id);
+          if (existing) existing.qty++;
+          else cart.push({ id, qty: 1 });
+          save();
+        }
+        const openDrawer = () => { $('cartDrawer').classList.remove('translate-x-full'); $('cartBackdrop').classList.remove('hidden'); };
+        const closeDrawer = () => { $('cartDrawer').classList.add('translate-x-full'); $('cartBackdrop').classList.add('hidden'); };
+        const openModal = () => $('checkoutModal').classList.replace('hidden', 'flex');
+        const closeModal = () => $('checkoutModal').classList.replace('flex', 'hidden');
+
+        function paintWish() {
+          document.querySelectorAll('[data-wish]').forEach(button => button.classList.toggle('wished', wish.includes(button.dataset.wish)));
+        }
+
+        document.addEventListener('click', event => {
+          const target = event.target;
+          const add = target.closest('[data-add]');
+          const buy = target.closest('[data-buy]');
+          const qty = target.closest('[data-qty]');
+          const remove = target.closest('[data-remove]');
+          const wishlist = target.closest('[data-wish]');
+          if (add) { addToCart(add.dataset.add); openDrawer(); }
+          else if (buy) { addToCart(buy.dataset.buy); openCheckout(); }
+          else if (qty) {
+            const [index, delta] = qty.dataset.qty.split(':').map(Number);
+            if (cart[index]) { cart[index].qty += delta; if (cart[index].qty <= 0) cart.splice(index, 1); save(); }
+          }
+          else if (remove) { cart.splice(Number(remove.dataset.remove), 1); save(); }
+          else if (wishlist) {
+            const id = wishlist.dataset.wish;
+            wish = wish.includes(id) ? wish.filter(x => x !== id) : [...wish, id];
+            localStorage.setItem('tixar_wish', JSON.stringify(wish)); paintWish();
+          }
+        });
+
+        $('openCartBtn').addEventListener('click', openDrawer);
+        $('closeCartBtn').addEventListener('click', closeDrawer);
+        $('cartBackdrop').addEventListener('click', closeDrawer);
+        $('continueShoppingBtn').addEventListener('click', closeDrawer);
+        $('checkoutBtn').addEventListener('click', openCheckout);
+        $('checkoutModal').addEventListener('click', event => { if (event.target === $('checkoutModal')) closeModal(); });
+
+        function openCheckout() {
+          if (!cart.length) { alert('Your cart is empty. Add a product first.'); return; }
+          closeDrawer();
+          openModal();
+          formStep();
+        }
+
+        function formStep() {
+          const sub = subtotal();
+          $('checkoutBody').innerHTML = `
+            <div class="flex items-start justify-between gap-4 mb-6">
+              <div><span class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#059669]">Tixar checkout</span><h2 class="text-2xl font-black text-slate-900 mt-1">Complete your order</h2><p class="text-sm text-gray-500 mt-1">Enter your details for delivery.</p></div>
+              <button type="button" id="closeCheckout" aria-label="Close checkout" class="text-2xl text-gray-400 hover:text-gray-800">&times;</button>
+            </div>
+            <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4 mb-5">
+              <div class="flex justify-between text-sm"><span class="text-slate-600">Items (${count()})</span><strong>${money(sub)}</strong></div>
+              <p class="text-xs text-slate-500 mt-1">Delivery fee will depend on your location.</p>
+            </div>
+            <form id="orderForm" class="space-y-5">
+              <section><h3 class="font-bold text-slate-900 mb-3">Customer information</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="text-xs font-semibold text-slate-600 sm:col-span-2">Full name *<input name="name" required autocomplete="name" placeholder="Enter your full name" class="checkout-input" /></label>
+                <label class="text-xs font-semibold text-slate-600">Phone number *<input name="phone" required type="tel" inputmode="tel" autocomplete="tel" placeholder="0712345678" class="checkout-input" /></label>
+                <label class="text-xs font-semibold text-slate-600">Email address *<input name="email" required type="email" autocomplete="email" placeholder="you@example.com" class="checkout-input" /></label>
+              </div></section>
+              <section><h3 class="font-bold text-slate-900 mb-3">Delivery information</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="text-xs font-semibold text-slate-600">County *<input name="county" required placeholder="e.g. Nairobi" class="checkout-input" /></label>
+                <label class="text-xs font-semibold text-slate-600">Town / Estate *<input name="town" required placeholder="e.g. Westlands" class="checkout-input" /></label>
+                <label class="text-xs font-semibold text-slate-600 sm:col-span-2">Delivery address / landmark *<input name="address" required placeholder="Building, street or nearby landmark" class="checkout-input" /></label>
+                <label class="text-xs font-semibold text-slate-600 sm:col-span-2">Additional instructions (optional)<textarea name="notes" rows="2" placeholder="Any directions for the rider?" class="checkout-input"></textarea></label>
+              </div></section>
+              <section><h3 class="font-bold text-slate-900 mb-3">Payment method</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-3 cursor-pointer has-[:checked]:border-[#059669] has-[:checked]:bg-emerald-50"><input type="radio" name="payment" value="M-Pesa (Simulated)" checked class="accent-[#059669]" /><span><strong class="block text-sm">M-Pesa</strong><small class="text-gray-500">Demo payment only</small></span></label>
+                <label class="flex items-center gap-3 border border-gray-200 rounded-xl p-3 cursor-pointer has-[:checked]:border-[#059669] has-[:checked]:bg-emerald-50"><input type="radio" name="payment" value="Cash on Delivery" class="accent-[#059669]" /><span><strong class="block text-sm">Cash on Delivery</strong><small class="text-gray-500">Pay when delivered</small></span></label>
+              </div></section>
+              <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 space-y-2 text-sm">
+                <div class="flex justify-between"><span class="text-gray-500">Subtotal</span><strong>${money(sub)}</strong></div>
+                <div class="flex justify-between"><span class="text-gray-500">Delivery</span><strong id="deliveryFeeLabel">Select county</strong></div>
+                <div class="border-t pt-2 flex justify-between text-base"><strong>Total</strong><strong id="grandTotal" class="text-[#0052CC]">${money(sub)}</strong></div>
+              </div>
+              <p id="formError" class="hidden text-sm text-red-600" role="alert"></p>
+              <p class="text-[11px] text-gray-400">Academic demonstration: no real payment will be collected and no order will be sent to a server.</p>
+              <div class="flex flex-col-reverse sm:flex-row gap-3"><button type="button" id="backToCart" class="sm:w-1/3 border border-gray-300 text-gray-700 font-bold py-3 rounded-xl text-sm">Back to cart</button><button type="submit" class="sm:flex-1 bg-[#059669] hover:bg-[#047857] text-white font-bold py-3 rounded-xl text-sm">Place Order</button></div>
+            </form>`;
+
+          const form = $('orderForm');
+          const county = form.elements.county;
+          const feeForCounty = value => value.trim().toLowerCase() === 'nairobi' ? 0 : 250;
+          const updateTotal = () => {
+            const value = county.value.trim();
+            const fee = value ? feeForCounty(value) : null;
+            $('deliveryFeeLabel').textContent = fee === null ? 'Select county' : fee === 0 ? 'Free' : money(fee);
+            $('grandTotal').textContent = money(sub + (fee || 0));
+          };
+          county.addEventListener('input', updateTotal);
+          $('closeCheckout').onclick = closeModal;
+          $('backToCart').onclick = () => { closeModal(); openDrawer(); };
+          form.onsubmit = event => {
+            event.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+            const phone = data.phone.replace(/[\s-]/g, '');
+            if (!/^(?:(?:\+254)|(?:254)|0)[71]\d{8}$/.test(phone)) {
+              $('formError').textContent = 'Please enter a valid Kenyan phone number, for example 0712345678.';
+              $('formError').classList.remove('hidden');
+              return;
+            }
+            data.phone = phone;
+            data.deliveryFee = feeForCounty(data.county);
+            data.total = sub + data.deliveryFee;
+            showSuccess(data);
+          };
+        }
+
+        function showSuccess(order) {
+          const reference = 'TXR-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+          const orderLines = cart.map(item => `<div class="flex justify-between gap-3 text-sm"><span>${item.qty} × ${esc(P[item.id].name.trim())}</span><strong>${money(P[item.id].price * item.qty)}</strong></div>`).join('');
+          $('checkoutBody').innerHTML = `
+            <div class="text-center py-3"><div class="w-16 h-16 rounded-full bg-emerald-100 text-[#059669] text-3xl flex items-center justify-center mx-auto">✓</div><p class="text-xs font-extrabold tracking-[0.18em] uppercase text-[#059669] mt-5">Order received</p><h2 class="text-2xl font-black mt-2">Thank you, ${esc(order.name)}!</h2><p class="text-sm text-gray-500 mt-2">Your demonstration order has been placed successfully.</p></div>
+            <div class="bg-gray-50 border rounded-2xl p-4 my-5 space-y-3"><div class="flex justify-between text-sm"><span class="text-gray-500">Order reference</span><strong>${reference}</strong></div><div class="flex justify-between text-sm"><span class="text-gray-500">Payment method</span><strong>${esc(order.payment)}</strong></div><div class="flex justify-between text-sm"><span class="text-gray-500">Delivery to</span><strong class="text-right">${esc(order.town)}, ${esc(order.county)}</strong></div><div class="border-t pt-3 space-y-2">${orderLines}</div><div class="border-t pt-3 flex justify-between text-sm"><span class="text-gray-500">Delivery fee</span><strong>${order.deliveryFee ? money(order.deliveryFee) : 'Free'}</strong></div><div class="flex justify-between text-base"><strong>Order total</strong><strong class="text-[#0052CC]">${money(order.total)}</strong></div></div>
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800">This is an academic project confirmation. No real payment has been processed and no order has been transmitted.</div>
+            <button type="button" id="finishOrder" class="w-full mt-5 bg-[#0052CC] hover:bg-[#003D99] text-white font-bold py-3.5 rounded-xl text-sm">Continue Shopping</button>`;
+          $('finishOrder').onclick = () => { cart = []; save(); closeModal(); window.location.href = '/'; };
+        }
+
+        renderCart();
+        paintWish();
+      })();
+    </script>
+    <style is:global>
+      .checkout-input { display:block; width:100%; margin-top:6px; border:1px solid #d1d5db; border-radius:10px; padding:11px 12px; font-size:13px; color:#1f2937; background:#fff; outline:none; }
+      .checkout-input:focus { border-color:#059669; box-shadow:0 0 0 3px rgb(5 150 105 / 12%); }
+    </style>
   </body>
 </html>
